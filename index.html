@@ -1,23 +1,117 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NEXUS - Catálogo de Videojuegos</title>
-    <link rel="stylesheet" href="mystyle.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GameVault</title>
+  <link rel="stylesheet" href="/assets/css/style.css">
 </head>
 <body>
 
+  <!-- ① SPLASH LOADER -->
+  <section id="splash" role="status" aria-label="Cargando aplicación">
+    <div class="splash-inner">
+      <h1 class="splash-logo">GameVault</h1>
+      <div class="spinner" aria-hidden="true"></div>
+      <div class="progress-bar" aria-hidden="true">
+        <div class="progress-fill" id="progress-fill"></div>
+      </div>
+      <p class="splash-text" id="splash-text">Cargando géneros y juegos…</p>
+    </div>
+</section>
+
+  <!-- PÁGINA PRINCIPAL -->
+  <div id="app" class="hidden">
+
+    <!-- HEADER FIJO -->
     <header class="site-header">
-        <h1>🎮 NEXUS Games</h1>
-        <p>Tu próxima aventura comienza acá</p>
-        <button id="boton-llamada">Explorar Catálogo</button>
+      <div class="header-inner">
+        <span class="header-logo" aria-label="GameVault inicio">🎮 GameVault</span>
+        <div class="search-wrapper">
+          <label for="search-input" class="sr-only">Buscar juego</label>
+          <input
+            type="search"
+            id="search-input"
+            class="search-input"
+            placeholder="Buscar juego…"
+            autocomplete="off"
+          />
+          <button class="search-btn" id="search-btn" aria-label="Buscar">
+            <span aria-hidden="true">🔍</span>
+          </button>
+        </div>
+      </div>
     </header>
-    
+
     <main>
-        <div id="list-data"></div>
+
+      <!-- HERO -->
+      <section class="hero" aria-labelledby="hero-title">
+        <div class="hero-content">
+          <p class="hero-eyebrow">Explorador de videojuegos</p>
+          <h2 id="hero-title" class="hero-title">
+            Descubrí los mejores <span class="hero-accent">juegos</span>
+          </h2>
+          <p class="hero-sub">
+            Organizados por género, con ratings y reseñas reales de RAWG.
+          </p>
+          <div class="hero-stats" id="hero-stats">
+            <!-- Se llena dinámicamente desde JS -->
+          </div>
+        </div>
+        <div class="hero-decoration" aria-hidden="true">🏆</div>
+      </section>
+
+      <!-- BANNER DE ERROR GLOBAL -->
+      <div id="error-banner" class="error-banner hidden" role="alert" aria-live="polite">
+        <span class="error-icon" aria-hidden="true">⚠️</span>
+        <div class="error-body">
+          <strong class="error-title">No pudimos cargar los datos</strong>
+          <p class="error-msg" id="error-msg">Revisá tu conexión e intentá de nuevo.</p>
+        </div>
+        <button class="error-retry" id="error-retry">Reintentar</button>
+      </div>
+
+      <!-- RESULTADOS DE BÚSQUEDA -->
+      <section id="search-results-section" class="genre-section hidden" aria-labelledby="search-results-title">
+        <div class="genre-header">
+          <h3 id="search-results-title" class="genre-name">🔍 Resultados de búsqueda</h3>
+          <button class="close-search-btn" id="close-search-btn">✕ Cerrar</button>
+        </div>
+        <div class="games-grid" id="search-results-grid">
+          <!-- Se llena dinámicamente -->
+        </div>
+      </section>
+
+      <!-- GALERÍAS POR GÉNERO -->
+      <div id="galleries" aria-label="Galerías de juegos por género">
+        <!-- Se llena dinámicamente con secciones por género -->
+      </div>
+
     </main>
 
-    <script src="main.js"></script>
+ 
+
+  </div>
+
+  <div id="detail-page" class="hidden" role="main" aria-label="Detalle del juego">
+
+    <header class="detail-header">
+      <button class="back-btn" id="back-btn" aria-label="Volver a la galería">
+        ← Volver
+      </button>
+      <span class="detail-breadcrumb" id="detail-breadcrumb"></span>
+    </header>
+
+    <div id="detail-content">
+      <!-- Se llena dinámicamente -->
+    </div>
+
+  </div>
+
+     <footer class="site-footer">
+      <p>Datos provistos por <a href="https://rawg.io" target="_blank" rel="noopener">RAWG Video Games Database</a></p>
+    </footer>
+  <script src="/assets/js/main.js"></script>
 </body>
 </html>
