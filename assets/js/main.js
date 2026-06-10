@@ -1,9 +1,6 @@
-// =============================================
-//  GAMEVAULT — main.js
-// =============================================
-
 const API_KEY = "174ef211cdd14c5599e4d6fcf65f56a3"; // <- Pegá tu key de rawg.io
 const BASE    = "https://api.rawg.io/api";
+
 
 // IDs de géneros que querés mostrar (podés editar)
 const GENRE_IDS = [
