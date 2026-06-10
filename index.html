@@ -1,117 +1,72 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>GameVault</title>
-  <link rel="stylesheet" href="/assets/css/style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GameVault</title>
+    <link rel="stylesheet" href="/assets/css/style.css">
 </head>
 <body>
 
-  <!-- ① SPLASH LOADER -->
-  <section id="splash" role="status" aria-label="Cargando aplicación">
-    <div class="splash-inner">
-      <h1 class="splash-logo">GameVault</h1>
-      <div class="spinner" aria-hidden="true"></div>
-      <div class="progress-bar" aria-hidden="true">
-        <div class="progress-fill" id="progress-fill"></div>
-      </div>
-      <p class="splash-text" id="splash-text">Cargando géneros y juegos…</p>
-    </div>
-</section>
-
-  <!-- PÁGINA PRINCIPAL -->
-  <div id="app" class="hidden">
-
-    <!-- HEADER FIJO -->
-    <header class="site-header">
-      <div class="header-inner">
-        <span class="header-logo" aria-label="GameVault inicio">🎮 GameVault</span>
-        <div class="search-wrapper">
-          <label for="search-input" class="sr-only">Buscar juego</label>
-          <input
-            type="search"
-            id="search-input"
-            class="search-input"
-            placeholder="Buscar juego…"
-            autocomplete="off"
-          />
-          <button class="search-btn" id="search-btn" aria-label="Buscar">
-            <span aria-hidden="true">🔍</span>
-          </button>
-        </div>
-      </div>
-    </header>
-
-    <main>
-
-      <!-- HERO -->
-      <section class="hero" aria-labelledby="hero-title">
-        <div class="hero-content">
-          <p class="hero-eyebrow">Explorador de videojuegos</p>
-          <h2 id="hero-title" class="hero-title">
-            Descubrí los mejores <span class="hero-accent">juegos</span>
-          </h2>
-          <p class="hero-sub">
-            Organizados por género, con ratings y reseñas reales de RAWG.
-          </p>
-          <div class="hero-stats" id="hero-stats">
-            <!-- Se llena dinámicamente desde JS -->
-          </div>
-        </div>
-        <div class="hero-decoration" aria-hidden="true">🏆</div>
-      </section>
-
-      <!-- BANNER DE ERROR GLOBAL -->
-      <div id="error-banner" class="error-banner hidden" role="alert" aria-live="polite">
-        <span class="error-icon" aria-hidden="true">⚠️</span>
-        <div class="error-body">
-          <strong class="error-title">No pudimos cargar los datos</strong>
-          <p class="error-msg" id="error-msg">Revisá tu conexión e intentá de nuevo.</p>
-        </div>
-        <button class="error-retry" id="error-retry">Reintentar</button>
-      </div>
-
-      <!-- RESULTADOS DE BÚSQUEDA -->
-      <section id="search-results-section" class="genre-section hidden" aria-labelledby="search-results-title">
-        <div class="genre-header">
-          <h3 id="search-results-title" class="genre-name">🔍 Resultados de búsqueda</h3>
-          <button class="close-search-btn" id="close-search-btn">✕ Cerrar</button>
-        </div>
-        <div class="games-grid" id="search-results-grid">
-          <!-- Se llena dinámicamente -->
+    <!-- Loader de Carga -->
+    <section id="splash">
+        <div id="splash-inner">
+            <h1 id="splash-logo">🎮 GameVault</h1>
+            <div id="spinner"></div>
+            <p id="splash-texto">Cargando juegos...</p>
         </div>
       </section>
 
-      <!-- GALERÍAS POR GÉNERO -->
-      <div id="galleries" aria-label="Galerías de juegos por género">
-        <!-- Se llena dinámicamente con secciones por género -->
-      </div>
+    <!-- APP PRINCIPAL-->
+    <div id="app" class="oculto">
 
-    </main>
+        <header id="site-header">
+            <span id="header-logo">GameVault</span>
+            <div id="buscador-wrapper">
+                <input type="search" id="buscador-input" placeholder="Buscar juego..." />
+                <button id="buscador-btn">Buscar</button>
+            </div>
+        </header>
 
- 
+        <main>
 
-  </div>
+            <!-- HERO -->
+            <section id="hero">
+                <div id="hero-texto">
+                    <p id="hero-eyebrow">Explorador de videojuegos</p>
+                    <h2 id="hero-titulo">Descubrí los mejores <span id="hero-acento">juegos</span></h2>
+                    <p id="hero-sub">Organizados por género, con ratings reales de RAWG.</p>
+                </div>
+                <div id="hero-deco" aria-hidden="true">🏆</div>
+            </section>
 
-  <div id="detail-page" class="hidden" role="main" aria-label="Detalle del juego">
+            <!-- BANNER DE ERROR GLOBAL-->
+            <section id="banner-error" class="oculto">
+                <span>⚠️</span>
+                <p id="banner-error-msg">No se pudo conectar con la API.</p>
+                <button id="btn-reintentar">Reintentar</button>
+            </section>
 
-    <header class="detail-header">
-      <button class="back-btn" id="back-btn" aria-label="Volver a la galería">
-        ← Volver
-      </button>
-      <span class="detail-breadcrumb" id="detail-breadcrumb"></span>
-    </header>
+            <!-- RESULTADOS DE BÚSQUEDA -->
+            <section id="seccion-busqueda" class="oculto">
+                <div class="genero-header">
+                    <h3>🔍 Resultados de búsqueda</h3>
+                    <button id="btn-cerrar-busqueda">✕ Cerrar</button>
+                </div>
+                <div id="grid-busqueda" class="games-grid"></div>
+            </section>
 
-    <div id="detail-content">
-      <!-- Se llena dinámicamente -->
+            <!-- GALERÍAS POR GÉNERO -->
+            <div id="galerias"></div>
+
+        </main>
+
+        <footer id="site-footer">
+            <p>Datos provistos por <a href="https://rawg.io" target="_blank" rel="noopener">RAWG Video Games Database</a></p>
+        </footer>
+
     </div>
 
-  </div>
-
-     <footer class="site-footer">
-      <p>Datos provistos por <a href="https://rawg.io" target="_blank" rel="noopener">RAWG Video Games Database</a></p>
-    </footer>
-  <script src="/assets/js/main.js"></script>
+    <script src="/assets/js/main.js"></script>
 </body>
 </html>
