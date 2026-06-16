@@ -10,7 +10,7 @@ const Generos = [
     { id: 2,  nombre: "Estrategia", emoji: "♟️" },
     { id: 3,  nombre: "Aventura",   emoji: "🗺️" },
     { id: 7,  nombre: "Puzzle",     emoji: "🧩" },  
-    { id: 15, nombre: "Deportes", emoji: "⚽" },
+    { id: 15, nombre: "Deportes",   emoji: "⚽" },
 ];
 
 // Referencias al DOM
@@ -27,12 +27,13 @@ const seccionBusqueda = document.getElementById("seccion-busqueda");
 const gridBusqueda    = document.getElementById("grid-busqueda");
 const btnCerrarBusq   = document.getElementById("btn-cerrar-busqueda");
 
-//Fetch 
+// Fetch
 function llamarAPI(endpoint)
 {
     return fetch(BASE_URL + endpoint + "&key=" + API_KEY);
 }
-// Loader de carga pricipal
+
+// Splash
 function ocultarSplash()
 {
     splash.classList.add("splash-salida");
@@ -41,7 +42,8 @@ function ocultarSplash()
         splash.style.display = "none";
     }, 600);
 }
-// Error 
+
+// Error global
 function mostrarError(mensaje)
 {
     bannerErrorMsg.textContent = mensaje;
@@ -52,7 +54,8 @@ function ocultarError()
 {
     bannerError.classList.remove("visible");
 }
-//  ESTADO PENDIENTE (cards grises mientras carga)
+
+// Estado pendiente
 function mostrarPendiente(gridEl)
 {
     let html = '<div class="games-grid">';
@@ -72,7 +75,8 @@ function mostrarPendiente(gridEl)
     html += "</div>";
     gridEl.innerHTML = html;
 }
-// Tarjetas de los juegos
+
+// Tarjetas de juegos
 function crearTarjetaJuego(juego)
 {
     let imagenHTML = "";
@@ -97,6 +101,7 @@ function crearTarjetaJuego(juego)
     {
         rating = "⭐ " + juego.rating;
     }
+
     return `
     <a class="card" href="game.html?id=${juego.id}">
         ${imagenHTML}
@@ -108,13 +113,12 @@ function crearTarjetaJuego(juego)
     </a>`;
 }
 
-// Juegos por genero
+// Cargar juegos de un género
 function cargarJuegosDeGenero(genero)
 {
     const gridEl  = document.getElementById("grid-" + genero.id);
     const countEl = document.getElementById("count-" + genero.id);
 
-    // Estado pendiente: mostrar cards grises
     mostrarPendiente(gridEl);
 
     let pagina = 2;
@@ -126,7 +130,6 @@ function cargarJuegosDeGenero(genero)
         })
         .then(function(data)
         {
-            // Estado resuelto: mostrar juegos
             countEl.textContent = data.count + " juegos";
             gridEl.innerHTML = "";
 
@@ -146,7 +149,6 @@ function cargarJuegosDeGenero(genero)
             html += "</div>";
             gridEl.innerHTML = html;
 
-            // Conectar el botón ver más
             const btnVerMas = document.getElementById("ver-mas-" + genero.id);
             btnVerMas.addEventListener("click", function()
             {
@@ -156,7 +158,6 @@ function cargarJuegosDeGenero(genero)
         })
         .catch(function(error)
         {
-            // Estado rechazado: mostrar error
             gridEl.innerHTML = `
             <div class="error-inline">
                 ⚠️ No se pudo cargar ${genero.nombre}. ${error.message}
@@ -164,6 +165,7 @@ function cargarJuegosDeGenero(genero)
         });
 }
 
+// Ver más juegos de un género
 function verMasJuegos(genero, pagina)
 {
     const gridEl    = document.getElementById("grid-" + genero.id);
@@ -203,12 +205,11 @@ function verMasJuegos(genero, pagina)
         });
 }
 
-// Secciones de generos
+// Construir galerías
 function construirGalerias()
 {
     galerias.innerHTML = "";
 
-    // Primero armamos todo el HTML junto
     let htmlTotal = "";
 
     for (let i = 0; i < Generos.length; i++)
@@ -226,28 +227,29 @@ function construirGalerias()
         </section>`;
     }
 
-    // Recién acá lo ponemos en el DOM de una sola vez
     galerias.innerHTML = htmlTotal;
 
-    // Ahora sí los botones existen en el DOM
     for (let i = 0; i < Generos.length; i++)
     {
         cargarJuegosDeGenero(Generos[i]);
     }
 }
 
-// Buscador de los juegos
+// Buscador
 function realizarBusqueda()
 {
-    const query = buscadorInput.value.trim(); // trim elimina los espacios
+    const query = buscadorInput.value.trim();
 
     if (query === "")
     {
         seccionBusqueda.classList.add("oculto");
+        galerias.classList.remove("oculto");
         return;
     }
 
     seccionBusqueda.classList.remove("oculto");
+    galerias.classList.add("oculto");
+    cerrarSugerencias();
     mostrarPendiente(gridBusqueda);
 
     llamarAPI("/games?search=" + query + "&page_size=8")
@@ -281,12 +283,103 @@ function realizarBusqueda()
         });
 }
 
+// Sugerencias mientras escribís
+let timerBusqueda = null;
+
+buscadorInput.addEventListener("input", function()
+{
+    const query = buscadorInput.value.trim();
+
+    if (query === "")
+    {
+        cerrarSugerencias();
+        return;
+    }
+
+    clearTimeout(timerBusqueda);
+    timerBusqueda = setTimeout(function()
+    {
+        llamarAPI("/games?search=" + query + "&page_size=6")
+            .then(function(response)
+            {
+                return response.json();
+            })
+            .then(function(data)
+            {
+                mostrarSugerencias(data.results);
+            })
+            .catch(function(error)
+            {
+                cerrarSugerencias();
+            });
+    }, 400);
+});
+
+function mostrarSugerencias(juegos)
+{
+    const lista = document.getElementById("lista-sugerencias");
+
+    if (juegos.length === 0)
+    {
+        cerrarSugerencias();
+        return;
+    }
+
+    let html = "";
+
+    for (let i = 0; i < juegos.length; i++)
+    {
+        let imagen = "";
+        if (juegos[i].background_image)
+        {
+            imagen = juegos[i].background_image;
+        }
+
+        let rating = "";
+        if (juegos[i].rating)
+        {
+            rating = "⭐ " + juegos[i].rating;
+        }
+
+        html += `
+        <div class="sugerencia" data-id="${juegos[i].id}">
+            <img class="sugerencia-img" src="${imagen}" alt="${juegos[i].name}">
+            <div class="sugerencia-info">
+                <span class="sugerencia-nombre">${juegos[i].name}</span>
+                <span class="sugerencia-rating">${rating}</span>
+            </div>
+        </div>`;
+    }
+
+    lista.innerHTML = html;
+    lista.classList.remove("oculto");
+
+    const items = lista.querySelectorAll(".sugerencia");
+    for (let i = 0; i < items.length; i++)
+    {
+        items[i].addEventListener("click", function()
+        {
+            const id = items[i].getAttribute("data-id");
+            window.location.href = "game.html?id=" + id;
+        });
+    }
+}
+
+function cerrarSugerencias()
+{
+    const lista = document.getElementById("lista-sugerencias");
+    lista.innerHTML = "";
+    lista.classList.add("oculto");
+}
+
+// Listeners
 buscadorBtn.addEventListener("click", realizarBusqueda);
 
 buscadorInput.addEventListener("keydown", function(e)
 {
     if (e.key === "Enter")
     {
+        cerrarSugerencias();
         realizarBusqueda();
     }
 });
@@ -294,17 +387,28 @@ buscadorInput.addEventListener("keydown", function(e)
 btnCerrarBusq.addEventListener("click", function()
 {
     seccionBusqueda.classList.add("oculto");
+    galerias.classList.remove("oculto");
     buscadorInput.value = "";
+    cerrarSugerencias();
 });
 
-// Volver a cargar los juegos
+document.addEventListener("click", function(e)
+{
+    const wrapper = document.getElementById("buscador-wrapper");
+    if (!wrapper.contains(e.target))
+    {
+        cerrarSugerencias();
+    }
+});
+
+// Reintentar
 btnReintentar.addEventListener("click", function()
 {
     ocultarError();
     construirGalerias();
 });
 
-// Incio de la pagina
+// Inicio
 function init()
 {
     splashTexto.textContent = "Conectando con RAWG...";
