@@ -9,6 +9,8 @@ const Generos = [
     { id: 51, nombre: "Indie",      emoji: "🎮" },
     { id: 2,  nombre: "Estrategia", emoji: "♟️" },
     { id: 3,  nombre: "Aventura",   emoji: "🗺️" },
+    { id: 7,  nombre: "Puzzle",     emoji: "🧩" },  
+    { id: 15, nombre: "Deportes", emoji: "⚽" },
 ];
 
 // Referencias al DOM
