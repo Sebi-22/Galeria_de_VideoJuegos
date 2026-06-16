@@ -117,6 +117,8 @@ function cargarJuegosDeGenero(genero)
     // Estado pendiente: mostrar cards grises
     mostrarPendiente(gridEl);
 
+    let pagina = 2;
+
     llamarAPI("/games?genres=" + genero.id + "&page_size=8&ordering=-rating")
         .then(function(response)
         {
@@ -143,6 +145,14 @@ function cargarJuegosDeGenero(genero)
 
             html += "</div>";
             gridEl.innerHTML = html;
+
+            // Conectar el botón ver más
+            const btnVerMas = document.getElementById("ver-mas-" + genero.id);
+            btnVerMas.addEventListener("click", function()
+            {
+                verMasJuegos(genero, pagina);
+                pagina = pagina + 1;
+            });
         })
         .catch(function(error)
         {
@@ -154,30 +164,78 @@ function cargarJuegosDeGenero(genero)
         });
 }
 
+function verMasJuegos(genero, pagina)
+{
+    const gridEl    = document.getElementById("grid-" + genero.id);
+    const btnVerMas = document.getElementById("ver-mas-" + genero.id);
+
+    btnVerMas.textContent = "Cargando...";
+    btnVerMas.disabled = true;
+
+    llamarAPI("/games?genres=" + genero.id + "&page_size=8&ordering=-rating&page=" + pagina)
+        .then(function(response)
+        {
+            return response.json();
+        })
+        .then(function(data)
+        {
+            let html = "";
+
+            for (let i = 0; i < data.results.length; i++)
+            {
+                html += crearTarjetaJuego(data.results[i]);
+            }
+
+            gridEl.querySelector(".games-grid").innerHTML += html;
+
+            btnVerMas.textContent = "Ver más";
+            btnVerMas.disabled = false;
+
+            if (!data.next)
+            {
+                btnVerMas.style.display = "none";
+            }
+        })
+        .catch(function(error)
+        {
+            btnVerMas.textContent = "Error, reintentar";
+            btnVerMas.disabled = false;
+        });
+}
+
 // Secciones de generos
 function construirGalerias()
 {
     galerias.innerHTML = "";
 
+    // Primero armamos todo el HTML junto
+    let htmlTotal = "";
+
     for (let i = 0; i < Generos.length; i++)
     {
-        galerias.innerHTML += `
+        htmlTotal += `
         <section class="genero-seccion">
             <div class="genero-header">
                 <h3 class="genero-nombre">
                     ${Generos[i].emoji} ${Generos[i].nombre}
                     <span class="genero-count" id="count-${Generos[i].id}"></span>
                 </h3>
+                <button class="btn-ver-mas" id="ver-mas-${Generos[i].id}">Ver más</button>
             </div>
             <div id="grid-${Generos[i].id}"></div>
         </section>`;
     }
 
+    // Recién acá lo ponemos en el DOM de una sola vez
+    galerias.innerHTML = htmlTotal;
+
+    // Ahora sí los botones existen en el DOM
     for (let i = 0; i < Generos.length; i++)
     {
         cargarJuegosDeGenero(Generos[i]);
     }
 }
+
 // Buscador de los juegos
 function realizarBusqueda()
 {
