@@ -1,6 +1,8 @@
 // Inicializamos la Api que tiene api.Key
 const API_KEY = "174ef211cdd14c5599e4d6fcf65f56a3";
 const BASE_URL = "https://api.rawg.io/api";
+const urlProxy = "https://cors-anywhere.herokuapp.com/";
+
 
 // Array de Generos 
 const Generos = [
@@ -238,7 +240,7 @@ function construirGalerias()
 // Buscador
 function realizarBusqueda()
 {
-    const query = buscadorInput.value.trim();
+    const query = buscadorInput.value.trim();// trim (con esto elimino los espacios)
 
     if (query === "")
     {
