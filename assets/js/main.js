@@ -288,7 +288,7 @@ let timerBusqueda = null;
 
 buscadorInput.addEventListener("input", function()
 {
-    const query = buscadorInput.value.trim();
+    const query = buscadorInput.value.trim();// elimina los espacios
 
     if (query === "")
     {
