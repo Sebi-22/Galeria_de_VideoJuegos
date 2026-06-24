@@ -1,73 +1,84 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>GameVault</title>
-    <link rel="stylesheet" href="/assets/css/style.css">
-</head>
-<body>
-
+    <link rel="stylesheet" href="/assets/css/style.css" />
+  </head>
+  <body>
     <!-- Loader de Carga -->
     <section id="splash">
-        <div id="splash-inner">
-            <h1 id="splash-logo">🎮 GameVault</h1>
-            <div id="spinner"></div>
-            <p id="splash-texto">Cargando juegos...</p>
-        </div>
+      <div id="splash-inner">
+        <h1 id="splash-logo">🎮 GameVault</h1>
+        <div id="spinner"></div>
+        <p id="splash-texto">Cargando juegos...</p>
+      </div>
     </section>
 
     <!-- APP PRINCIPAL -->
     <div id="app" class="oculto">
+      <header id="site-header">
+        <span id="header-logo">GameVault</span>
+        <div id="buscador-wrapper">
+          <input
+            type="search"
+            id="buscador-input"
+            placeholder="Buscar juego..."
+          />
+          <button id="buscador-btn">Buscar</button>
+          <div id="lista-sugerencias" class="oculto"></div>
+        </div>
+      </header>
 
-        <header id="site-header">
-            <span id="header-logo">GameVault</span>
-            <div id="buscador-wrapper">
-                <input type="search" id="buscador-input" placeholder="Buscar juego...">
-                <button id="buscador-btn">Buscar</button>
-                <div id="lista-sugerencias" class="oculto"></div>
-            </div>
-        </header>
+      <main>
+        <!-- HERO -->
+        <section id="hero">
+          <div id="hero-texto">
+            <p id="hero-eyebrow">Explorador de videojuegos</p>
+            <h2 id="hero-titulo">
+              Descubrí los mejores <span id="hero-acento">juegos</span>
+            </h2>
+            <p id="hero-sub">
+              Organizados por género, con ratings reales de RAWG.
+            </p>
+          </div>
+          <div id="hero-deco" aria-hidden="true">🏆</div>
+        </section>
 
-        <main>
+        <!-- BANNER DE ERROR -->
+        <section id="banner-error" class="oculto">
+          <span id="banner-error-icono">👾</span>
+          <div id="banner-error-textos">
+            <p id="banner-error-titulo">Estamos trabajando para solucionarlo</p>
+            <p id="banner-error-msg">No se pudo conectar con la API.</p>
+          </div>
+          <button id="btn-reintentar">Reintentar</button>
+        </section>
 
-            <!-- HERO -->
-            <section id="hero">
-                <div id="hero-texto">
-                    <p id="hero-eyebrow">Explorador de videojuegos</p>
-                    <h2 id="hero-titulo">Descubrí los mejores <span id="hero-acento">juegos</span></h2>
-                    <p id="hero-sub">Organizados por género, con ratings reales de RAWG.</p>
-                </div>
-                <div id="hero-deco" aria-hidden="true">🏆</div>
-            </section>
+        <!-- SECCIÓN DE BÚSQUEDA -->
+        <section id="seccion-busqueda" class="oculto">
+          <div class="genero-header">
+            <h3>🔍 Resultados de búsqueda</h3>
+            <button id="btn-cerrar-busqueda">✕ Cerrar</button>
+          </div>
+          <div id="grid-busqueda" class="games-grid"></div>
+        </section>
 
-            <!-- BANNER DE ERROR -->
-            <section id="banner-error" class="oculto">
-                <span>⚠️</span>
-                <p id="banner-error-msg">No se pudo conectar con la API.</p>
-                <button id="btn-reintentar">Reintentar</button>
-            </section>
+        <!-- GALERÍAS POR GÉNERO -->
+        <div id="galerias"></div>
+      </main>
 
-            <!-- SECCIÓN DE BÚSQUEDA -->
-            <section id="seccion-busqueda" class="oculto">
-                <div class="genero-header">
-                    <h3>🔍 Resultados de búsqueda</h3>
-                    <button id="btn-cerrar-busqueda">✕ Cerrar</button>
-                </div>
-                <div id="grid-busqueda" class="games-grid"></div>
-            </section>
-
-            <!-- GALERÍAS POR GÉNERO -->
-            <div id="galerias"></div>
-
-        </main>
-
-        <footer id="site-footer">
-            <p>Datos provistos por <a href="https://rawg.io" target="_blank" rel="noopener">RAWG Video Games Database</a></p>
-        </footer>
-
+      <footer id="site-footer">
+        <p>
+          Datos provistos por
+          <a href="https://rawg.io" target="_blank" rel="noopener"
+            >RAWG Video Games Database</a
+          >
+        </p>
+      </footer>
     </div>
 
     <script src="/assets/js/main.js"></script>
-</body>
+  </body>
 </html>

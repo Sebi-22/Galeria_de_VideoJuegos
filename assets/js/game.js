@@ -18,7 +18,7 @@ function llamarAPI(endpoint)
 const params = new URLSearchParams(window.location.search);
 const gameId = params.get("id");
 
-// Armar el HTML del detalle
+// Armado del HTML de los detalles
 function mostrarDetalle(juego, screenshots)
 {
     let generosHTML = "";
@@ -113,7 +113,7 @@ function cargarDetalle()
         })
         .then(function(juego)
         {
-            return llamarAPI("/games/" + gameId + "/screenshots?")
+            return llamarAPI("/games/" + gameId + "/screenshots?")  
                 .then(function(response)
                 {
                     return response.json();

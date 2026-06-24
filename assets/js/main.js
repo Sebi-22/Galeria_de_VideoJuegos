@@ -4,13 +4,22 @@ const base_url = "https://api.rawg.io/api";
 
 // Array de Generos 
 const Generos = [
-    { id: 4,  nombre: "Acción",     emoji: "⚔️" },
-    { id: 5,  nombre: "RPG",        emoji: "🧙" },
-    { id: 51, nombre: "Indie",      emoji: "🎮" },
-    { id: 2,  nombre: "Estrategia", emoji: "♟️" },
-    { id: 3,  nombre: "Aventura",   emoji: "🗺️" },
-    { id: 7,  nombre: "Puzzle",     emoji: "🧩" },  
-    { id: 15, nombre: "Deportes",   emoji: "⚽" },
+    { id: 4,  nombre: "Acción" },
+    { id: 5,  nombre: "RPG" },
+    { id: 51, nombre: "Indie" },
+    { id: 10,  nombre: "Estrategia" },
+    { id: 3,  nombre: "Aventura" },
+    { id: 7,  nombre: "Puzzle" },  
+    { id: 15, nombre: "Deportes" },
+    
+/*{ id: 1,  nombre: "Carreras" }     
+{ id: 2,  nombre: "Shooter" }       
+{ id: 6,  nombre: "Lucha" }         
+{ id: 11, nombre: "Arcade" }
+{ id: 14, nombre: "Simulación" }
+{ id: 40, nombre: "Casual" }
+{ id: 83, nombre: "Plataformas" }   */
+
 ];
 
 // Referencias al DOM
@@ -47,6 +56,7 @@ function ocultarSplash()
 function mostrarError(mensaje)
 {
     bannerErrorMsg.textContent = mensaje;
+    bannerError.classList.remove("oculto");
     bannerError.classList.add("visible");
 }
 
@@ -121,9 +131,11 @@ function cargarJuegosDeGenero(genero)
 
     mostrarPendiente(gridEl);
 
+// Arranco en la n°2 porque la pagina 1 ya viene de arriba, asi que "Ver mas" tiene que pedir la siguiente
     let pagina = 2;
 
-    llamarAPI("/games?genres=" + genero.id + "&page_size=8&ordering=-rating")
+// Pido los primeros 8 juegos del genero (sin poner "page", ya que la API me da la pagina 1 )
+llamarAPI("/games?genres=" + genero.id + "&page_size=8&ordering=-rating")
         .then(function(response)
         {
             return response.json();
@@ -218,7 +230,7 @@ function construirGalerias()
         <section class="genero-seccion">
             <div class="genero-header">
                 <h3 class="genero-nombre">
-                    ${Generos[i].emoji} ${Generos[i].nombre}
+                    ${Generos[i].nombre}
                     <span class="genero-count" id="count-${Generos[i].id}"></span>
                 </h3>
                 <button class="btn-ver-mas" id="ver-mas-${Generos[i].id}">Ver más</button>
@@ -352,7 +364,7 @@ function mostrarSugerencias(juegos)
     }
 
     lista.innerHTML = html;
-    lista.classList.remove("oculto");
+    lista.classList.remove("oculto");// remove es un Metodo que elimina cosas
 
     const items = lista.querySelectorAll(".sugerencia");
     for (let i = 0; i < items.length; i++)

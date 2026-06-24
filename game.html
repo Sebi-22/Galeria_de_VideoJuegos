@@ -1,42 +1,44 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Detalle del juego — GameVault</title>
-    <link rel="stylesheet" href="/assets/css/style.css">
-</head>
-<body>
-
+    <link rel="stylesheet" href="/assets/css/style.css" />
+  </head>
+  <body>
     <header id="site-header">
-        <a href="index.html" id="header-logo">🎮 GameVault</a>
-        <a href="index.html" id="btn-volver">← Volver</a>
+      <a href="index.html" id="header-logo">🎮 GameVault</a>
+      <a href="index.html" id="btn-volver">← Volver</a>
     </header>
 
     <main id="main-detalle">
+      <!-- Estado: cargando -->
+      <div id="detalle-cargando">
+        <div id="spinner"></div>
+        <p>Cargando juego...</p>
+      </div>
 
-        <!-- Estado: cargando -->
-        <div id="detalle-cargando">
-            <div id="spinner"></div>
-            <p>Cargando juego...</p>
-        </div>
+      <!-- Estado: error -->
+      <div id="detalle-error" class="oculto">
+        <p>😵 No se pudo cargar el juego.</p>
+        <p id="detalle-error-msg"></p>
+        <a href="index.html">← Volver a la galería</a>
+      </div>
 
-        <!-- Estado: error -->
-        <div id="detalle-error" class="oculto">
-            <p>😵 No se pudo cargar el juego.</p>
-            <p id="detalle-error-msg"></p>
-            <a href="index.html">← Volver a la galería</a>
-        </div>
-
-        <!-- Estado: contenido -->
-        <div id="detalle-contenido" class="oculto"></div>
-
+      <!-- Estado: contenido -->
+      <div id="detalle-contenido" class="oculto"></div>
     </main>
 
     <footer id="site-footer">
-        <p>Datos provistos por <a href="https://rawg.io" target="_blank" rel="noopener">RAWG Video Games Database</a></p>
+      <p>
+        Datos provistos por
+        <a href="https://rawg.io" target="_blank" rel="noopener"
+          >RAWG Video Games Database</a
+        >
+      </p>
     </footer>
 
     <script src="/assets/js/game.js"></script>
-</body>
+  </body>
 </html>
