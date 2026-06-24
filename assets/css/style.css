@@ -129,42 +129,68 @@ a {
 #app {
   padding-top: 56px;
 }
-
-#hero {
-  background-image: url('../img/hero-bg.jpg');
-  padding: 60px 20px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+#hero
+{
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    padding: 60px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: relative;
+    min-height: 300px;
 }
 
-#hero-eyebrow {
-  font-size: 0.7rem;
-  color: #555;
-  text-transform: uppercase;
-  letter-spacing: 2px;
-  margin-bottom: 10px;
+#hero::before
+{
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to right, rgba(0, 0, 0, 0.85) 0%, rgba(0, 0, 0, 0.4) 60%, transparent 100%);
+    z-index: 1;
 }
 
-#hero-titulo {
-  font-size: 2rem;
-  font-weight: bold;
-  color: #f0f0f2;
+#hero-texto
+{
+    position: relative;
+    z-index: 2;
 }
 
-#hero-acento {
-  color: #a78bfa;
+#hero-eyebrow
+{
+    font-size: 0.7rem;
+    color: #ccc;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 10px;
 }
 
-#hero-sub {
-  font-size: 0.9rem;
-  color: #888;
-  margin-top: 10px;
+#hero-titulo
+{
+    font-size: 2rem;
+    font-weight: bold;
+    color: #ffffff;
 }
 
-#hero-deco {
-  font-size: 5rem;
-  opacity: 0.15;
+#hero-acento
+{
+    color: #a78bfa;
+}
+
+#hero-sub
+{
+    font-size: 0.9rem;
+    color: #ccc;
+    margin-top: 10px;
+}
+
+#hero-deco
+{
+    font-size: 5rem;
+    opacity: 0.15;
+    position: relative;
+    z-index: 2;
 }
 #galerias {
   padding: 20px;

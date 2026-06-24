@@ -238,7 +238,7 @@ function construirGalerias()
 // Buscador
 function realizarBusqueda()
 {
-    const query = buscadorInput.value.trim();// trim (con esto elimino los espacios)
+    const query = buscadorInput.value.trim();
 
     if (query === "")
     {
@@ -288,7 +288,7 @@ let timerBusqueda = null;
 
 buscadorInput.addEventListener("input", function()
 {
-    const query = buscadorInput.value.trim();// elimina los espacios
+    const query = buscadorInput.value.trim();
 
     if (query === "")
     {
@@ -413,7 +413,7 @@ function init()
 {
     splashTexto.textContent = "Conectando con RAWG...";
 
-    llamarAPI("/games?page_size=1")
+    llamarAPI("/games?page_size=1&ordering=-rating")
         .then(function(response)
         {
             return response.json();
@@ -421,6 +421,11 @@ function init()
         .then(function(data)
         {
             splashTexto.textContent = "¡Listo!";
+
+            // Poner la imagen del juego más popular como fondo del hero
+            const imagenHero = data.results[0].background_image;
+            const hero = document.getElementById("hero");
+            hero.style.backgroundImage = "url(" + imagenHero + ")";
 
             setTimeout(function()
             {
