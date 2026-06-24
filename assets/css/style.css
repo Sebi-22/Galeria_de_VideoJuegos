@@ -82,6 +82,7 @@ a {
   gap: 16px;
   max-width: 1400px;
   margin: 0 auto;
+  z-index: 1000; 
 }
 
 #header-logo {
@@ -400,6 +401,43 @@ a {
 #btn-cerrar-busqueda:hover {
   border-color: #f87171;
   color: #f87171;
+}
+#lista-sugerencias {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  right: 0;
+  background-color: #1c1c21;
+  border: 1px solid #333;
+  border-radius: 6px;
+  max-height: 320px;
+  overflow-y: auto;
+  z-index: 1001; 
+}
+
+.sugerencia {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 12px;
+  cursor: pointer;
+}
+
+.sugerencia:hover {
+  background-color: #2a2a30;
+}
+
+.sugerencia-img {
+  width: 40px;
+  height: 40px;
+  object-fit: cover;
+  border-radius: 4px;
+  flex-shrink: 0;
+}
+
+.sugerencia-nombre {
+  font-size: 0.82rem;
+  color: #f0f0f2;
 }
 
 #site-footer {
