@@ -1,6 +1,6 @@
 // Misma API que en main.js
-const API_KEY = "174ef211cdd14c5599e4d6fcf65f56a3";
-const BASE_URL = "https://api.rawg.io/api";
+const api_key = "174ef211cdd14c5599e4d6fcf65f56a3";
+const base_url = "https://api.rawg.io/api";
 
 // Referencias al DOM
 const divCargando  = document.getElementById("detalle-cargando");
@@ -11,7 +11,7 @@ const errorMsg     = document.getElementById("detalle-error-msg");
 // Fetch
 function llamarAPI(endpoint)
 {
-    return fetch(BASE_URL + endpoint + "&key=" + API_KEY);
+    return fetch(base_url + endpoint + "&key=" + api_key);
 }
 
 // Leer el ?id= de la URL
